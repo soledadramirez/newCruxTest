@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import background from './assets/fondo.webp';
 import axios from "axios";
@@ -9,8 +9,23 @@ const App = () => {
   const [file, setFile] = useState(null);
   const [preview, setPreview] = useState(null);
 
+  useEffect(() => {
+    const ws = new WebSocket("ws://de56-2a09-bac1-680-2370-00-2c-f9.ngrok-free.app"); // Cambia por tu URL de ngrok
+
+    ws.onopen = () => {
+      console.log("Conectado al WebSocket");
+    };
+
+    ws.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      console.log("Mensaje del servidor WebSocket:", data);
+      setPreview(data.message)
+    };
+  }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setPreview('');
     const formData = new FormData();
     formData.append("text", text);
     formData.append("url", url);
@@ -19,12 +34,11 @@ const App = () => {
     }
 
     try {
-      const response = await axios.post("https://example.com/api/process", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+      const response = await axios.post("https://hook.us2.make.com/vg2o3t9ltk3ly21a4whaen1g9rckoukc", {
+        text,
+        url,
+        
       });
-
       setPreview(response.data);
     } catch (error) {
       console.error("Error al enviar los datos:", error);
