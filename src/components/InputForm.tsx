@@ -1,10 +1,20 @@
 import React from "react";
 
-const InputForm = ({ text, setText, url, setUrl, file, setFile, handleSubmit }) => {
+interface InputFormProps {
+  text: string;
+  setText: (value: string) => void;
+  url: string;
+  setUrl: (value: string) => void;
+  file: File | null;
+  setFile: (file: File) => void;
+  handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
+}
+
+const InputForm: React.FC<InputFormProps> = ({ text, setText, url, setUrl, file, setFile, handleSubmit }) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="bg-white p-4 shadow-sm w-100 w-md-25"
+      className="bg-white p-4 shadow-sm w-100 w-md-25 d-flex flex-column justify-content-around"
       // style={{ maxWidth: '400px' }}
     >
       <h1 className="text-center mb-4">NewCrux</h1>
@@ -36,7 +46,7 @@ const InputForm = ({ text, setText, url, setUrl, file, setFile, handleSubmit }) 
         <input
           type="file"
           id="file"
-          onChange={(e) => setFile(e.target.files[0])}
+          onChange={(e: any) => setFile(e.target.files[0])}
           className="form-control"
         />
       </div>

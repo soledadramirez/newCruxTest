@@ -1,15 +1,19 @@
 import React from "react";
-import profile from "../assets/profile.webp";
-import Toast from "./Publish";
+import PublishButton from "../../Publish";
+import profile from "../../../assets/profile.webp";
+import { PreviewResponse } from "../../../App";
 
-const Preview = ({ preview }) => {
+
+
+
+const Preview = ({ preview }:{preview: PreviewResponse}) => {
+
   return (
-    <div className="bg-white p-4 shadow-sm w-100 w-md-50">
+    <div className="bg-light p-4 shadow-sm w-100 w-md-50">
       <h1 className="text-center mb-4">Vista previa del Post</h1>
       {preview ? (
         <div>
-          <div className="linkedin-post bg-light p-2 rounded">
-            {JSON.stringify(preview, null, 2)}
+          <div className="linkedin-post  p-2 rounded" style={{ backgroundColor: "#fff" }}>
             <div className="d-flex align-items-center mb-3">
               <img
                 src={preview.profilePicture || profile}
@@ -18,8 +22,8 @@ const Preview = ({ preview }) => {
                 style={{ width: "50px", height: "50px" }}
               />
               <div>
-                <strong>{preview.name || "Nombre del usuario"}</strong>
-                <p className="mb-0 text-muted">{preview.title || "Título profesional"}</p>
+                <strong>{preview.name || "New Crux"}</strong>
+                <p className="mb-0 text-muted">{preview.title || "Emprendedor"}</p>
                 <span className="text-muted" style={{ fontSize: "12px" }}>
                   {preview.date || "Hace unos momentos"} · {preview.visibility || "Público"}
                 </span>
@@ -30,6 +34,9 @@ const Preview = ({ preview }) => {
             <div className="post-body mb-3">
               <p style={{ fontSize: "15px", color: "#333" }}>
                 {preview.text || "Aquí verás el texto de tu post generado."}
+              </p>
+              <p style={{ fontSize: "15px", color: "#333" }}>
+                {preview.hash_tag}
               </p>
             </div>
 
@@ -69,7 +76,7 @@ const Preview = ({ preview }) => {
           </div>
 
           {/* Componente de Toasts */}
-          <Toast />
+          <PublishButton preview={preview} />
         </div>
       ) : (
         <p className="text-center text-muted">Aquí verás tu post generado por IA</p>
