@@ -4,8 +4,8 @@ const InputForm = ({ text, setText, url, setUrl, file, setFile, handleSubmit }) 
   return (
     <form
       onSubmit={handleSubmit}
-      className="bg-white p-4 rounded shadow-sm w-100"
-      style={{ maxWidth: '400px' }}
+      className="bg-white p-4 shadow-sm w-100 w-md-25"
+      // style={{ maxWidth: '400px' }}
     >
       <h1 className="text-center mb-4">NewCrux</h1>
 

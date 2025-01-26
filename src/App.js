@@ -21,6 +21,12 @@ const App = () => {
     ws.onmessage = (event) => {
       const data = JSON.parse(event.data);
       console.log("Mensaje del servidor WebSocket:", data);
+      /**
+       *[{social_data: 'Instagram', text: 'Es una masa', hash_tag: '#sefiroe'},
+         {social_data: 'Linkedin', text: 'Es una papa', hash_tag: '#sef'}
+       * ] 
+       * 
+       */
       setPreview(data.message);
     };
   }, []);
@@ -53,9 +59,9 @@ const App = () => {
         backgroundImage: `url(${background})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
-        minHeight: "100vh",
+        minHeight: "100vh"
       }}>
-      <div className="d-flex flex-row gap-4" style={{ maxWidth: '850px', width: '100%' }}>
+      <div className="d-flex flex-column flex-md-row justify-content-between" style={{ maxWidth: '1000px', width: '100%' }}>
         <InputForm
           text={text}
           setText={setText}
