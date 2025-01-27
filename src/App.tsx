@@ -79,7 +79,7 @@ const App = () => {
         backgroundPosition: "center",
         minHeight: "100vh"
       }}>
-      <div className="d-flex flex-column flex-md-row justify-content-between gap-4" style={{ height: 600,maxWidth: '1000px', width: '100%' }}>
+      <div className="d-flex flex-column flex-md-row justify-content-between gap-4" style={{ height: 670,maxWidth: '1000px', width: '100%' }}>
         <InputForm
           text={text}
           setText={setText}
