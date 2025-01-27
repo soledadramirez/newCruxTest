@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import background from './assets/fondo.webp';
 import axios from "axios";
@@ -24,9 +24,11 @@ const App = () => {
   const [url, setUrl] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<Array<PreviewResponse>>([]);
+  const isComponentMounted = useRef(true); // Usamos useRef para mantener el estado del montaje
+  const wsRef = useRef<WebSocket | null>(null);
 
   useEffect(() => {
-    const ws = new WebSocket("ws://9686-2a09-bac1-680-2370-00-2c-e6.ngrok-free.app");
+    const ws = new WebSocket("ws://web-socket-new-crux-65238b9f49d2.herokuapp.com");
 
     ws.onopen = () => {
       console.log("Conectado al WebSocket");
@@ -42,6 +44,46 @@ const App = () => {
        * 
        */
       setPreview(response.data);
+    };
+  }, []);
+  useEffect(() => {
+    isComponentMounted.current = true; // Marcamos como montado al inicio
+
+    const connectWebSocket = () => {
+      const socket = new WebSocket("ws://web-socket-new-crux-65238b9f49d2.herokuapp.com");
+
+      socket.onopen = () => {
+        console.log("Conectado al WebSocket");
+      };
+
+      socket.onmessage = (event) => {
+        if (!isComponentMounted.current) return; // Evita actualizar estado si el componente está desmontado
+        const response = JSON.parse(event.data);
+        console.log("Mensaje del servidor WebSocket:", response);
+        setPreview(response.data);
+      };
+
+      socket.onclose = () => {
+        if (!isComponentMounted.current) return; // Evita reconectar si el componente está desmontado
+        console.error("Conexión WebSocket cerrada. Reintentando...");
+        setTimeout(() => connectWebSocket(), 5000); // Reintentar después de 5 segundos
+      };
+
+      socket.onerror = (error) => {
+        console.error("Error en el WebSocket:", error);
+        socket.close(); // Cierra la conexión para evitar errores repetidos
+      };
+
+      wsRef.current = socket; // Guardamos la referencia del WebSocket
+    };
+
+    connectWebSocket();
+
+    return () => {
+      isComponentMounted.current = false; // Marcamos como desmontado
+      if (wsRef.current) {
+        wsRef.current?.close(); // Cerramos la conexión al desmontar
+      }
     };
   }, []);
 
