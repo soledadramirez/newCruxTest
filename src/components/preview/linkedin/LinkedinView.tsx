@@ -10,7 +10,7 @@ const Preview = ({ preview }:{preview: PreviewResponse}) => {
 
   return (
     <div className="bg-light p-4 shadow-sm w-100 w-md-50">
-      <h1 className="text-center mb-4">Vista previa del Post</h1>
+      <h2 className="text-center mb-4">Vista previa del Post</h2>
       {preview ? (
         <div>
           <div className="linkedin-post  p-2 rounded" style={{ backgroundColor: "#fff" }}>
@@ -33,7 +33,7 @@ const Preview = ({ preview }:{preview: PreviewResponse}) => {
             {/* Cuerpo del post */}
             <div className="post-body mb-3">
               <p style={{ fontSize: "15px", color: "#333" }}>
-                {preview.text || "Aquí verás el texto de tu post generado."}
+                {preview.text || "Aquí verás tu post generado."}
               </p>
               <p style={{ fontSize: "15px", color: "#333" }}>
                 {preview.hash_tag}
