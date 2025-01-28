@@ -26,26 +26,8 @@ const App = () => {
   const [preview, setPreview] = useState<Array<PreviewResponse>>([]);
   const isComponentMounted = useRef(true); // Usamos useRef para mantener el estado del montaje
   const wsRef = useRef<WebSocket | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    const ws = new WebSocket("ws://web-socket-new-crux-65238b9f49d2.herokuapp.com");
-
-    ws.onopen = () => {
-      console.log("Conectado al WebSocket");
-    };
-
-    ws.onmessage = (event) => {
-      const response = JSON.parse(event.data);
-      console.log("Mensaje del servidor WebSocket:", response);
-      /**
-       *[{social_data: 'Instagram', text: 'Es una masa', hash_tag: '#sefiroe'},
-         {social_data: 'Linkedin', text: 'Es una papa', hash_tag: '#sef'}
-       * ] 
-       * 
-       */
-      setPreview(response.data);
-    };
-  }, []);
   useEffect(() => {
     isComponentMounted.current = true; // Marcamos como montado al inicio
 
@@ -61,6 +43,7 @@ const App = () => {
         const response = JSON.parse(event.data);
         console.log("Mensaje del servidor WebSocket:", response);
         setPreview(response.data);
+        setIsLoading(false);
       };
 
       socket.onclose = () => {
@@ -89,6 +72,7 @@ const App = () => {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
+    setIsLoading(true)
     setPreview([]);
     const formData = new FormData();
     formData.append("text", text);
@@ -98,14 +82,10 @@ const App = () => {
     }
 
     try {
-      const response = await axios.post("https://hook.us2.make.com/itr5w20uh1fxwlq1odpgv36d1x5k7cot", {
-        text,
-        url,
-      });
+      const response = await axios.post("https://hook.us2.make.com/lka1ovvuarl7i3pm2gmuiwz455mumkuf", formData);
       console.log('response', response);
       console.log('response.data', response.data);
       console.log('response.config.data', response.config.data);
-
       //setPreview(response.data);
     } catch (error) {
       console.error("Error al enviar los datos:", error);
@@ -114,7 +94,8 @@ const App = () => {
   };
 
   return (
-    <div className="min-vh-100 d-flex justify-content-center align-items-center"
+    // <div className="min-vh-100 d-flex justify-content-center align-items-center"
+      <div className="min-vh-100 d-flex flex-direction-column justify-content-center align-items-center"
       style={{
         backgroundImage: `url(${background})`,
         backgroundSize: "cover",
@@ -130,6 +111,8 @@ const App = () => {
           file={file}
           setFile={setFile}
           handleSubmit={handleSubmit}
+          isLoading={isLoading}
+          setIsLoading= {setIsLoading}
         />
         {
          preview?.length === 0 ? <Preview   preview={{
@@ -144,6 +127,8 @@ const App = () => {
           }
           )
         }
+      </div>
+      <div>
       </div>
     </div>
   );

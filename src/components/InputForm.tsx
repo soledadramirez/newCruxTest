@@ -8,9 +8,11 @@ interface InputFormProps {
   file: File | null;
   setFile: (file: File) => void;
   handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
+  isLoading: boolean;
+  setIsLoading: (value: boolean) =>void;
 }
 
-const InputForm: React.FC<InputFormProps> = ({ text, setText, url, setUrl, file, setFile, handleSubmit }) => {
+const InputForm = ({ text, setText, url, setUrl, file, setFile, handleSubmit, isLoading, setIsLoading}: InputFormProps) => {
   return (
     <form
       onSubmit={handleSubmit}
@@ -21,8 +23,8 @@ const InputForm: React.FC<InputFormProps> = ({ text, setText, url, setUrl, file,
       <h6 className="m-0">
       Esta información nos ayudará a crear tu post
     </h6>
-      <div className="card shadow" style={{ maxWidth: '500px', margin: '20px auto' }}>
-  <div className="card-body">
+      <div className="card shadow w-100" style={{ maxWidth: '500px', margin: '20px auto' }}>
+  <div className="card-body w-100">
     <div className="mb-3">
       <label htmlFor="text" className="form-label">Agregá texto:</label>
       <input
@@ -43,7 +45,7 @@ const InputForm: React.FC<InputFormProps> = ({ text, setText, url, setUrl, file,
         className="form-control"
       />
     </div>
-    <div className="mb-3">
+    {/* <div className="mb-3">
       <label htmlFor="file" className="form-label">Agregá un archivo:</label>
       <input
         type="file"
@@ -51,7 +53,7 @@ const InputForm: React.FC<InputFormProps> = ({ text, setText, url, setUrl, file,
         onChange={(e: any) => setFile(e.target.files[0])}
         className="form-control"
       />
-    </div>
+    </div> */}
   </div>
 </div>
 
@@ -78,11 +80,23 @@ const InputForm: React.FC<InputFormProps> = ({ text, setText, url, setUrl, file,
       </div>
 
       <button
-        type="submit"
-        className="btn btn-primary w-100"
-      >
-        Enviar
-      </button>
+          type="submit"
+          className="btn btn-primary w-100 d-flex justify-content-center align-items-center"
+          disabled={isLoading} // Botón deshabilitado mientras se carga
+          >
+          {isLoading ? (
+          <>
+          <span
+            className="spinner-border spinner-border-sm me-2"
+            role="status"
+            aria-hidden="true"
+          ></span>
+          Generando...
+          </>
+            ) : (
+              "Generar post"
+            )}
+       </button>
     </form>
   );
 };

@@ -1,5 +1,6 @@
 import React from "react";
 import PublishButton from "../../Publish";
+import ProgramButton from "../../Program";
 import profile from "../../../assets/profile.webp";
 import { PreviewResponse } from "../../../App";
 
@@ -13,7 +14,7 @@ const Preview = ({ preview }:{preview: PreviewResponse}) => {
       <h2 className="text-center mb-4">Vista previa del Post</h2>
       {preview ? (
         <div>
-          <div className="linkedin-post  p-2 rounded" style={{ backgroundColor: "#fff" }}>
+          <div className="linkedin-post  p-2 rounded" style={{ backgroundColor: "#fff", maxHeight: '500px', overflowY: "auto"}}>
             <div className="d-flex align-items-center mb-3">
               <img
                 src={preview.profilePicture || profile}
@@ -32,7 +33,7 @@ const Preview = ({ preview }:{preview: PreviewResponse}) => {
 
             {/* Cuerpo del post */}
             <div className="post-body mb-3">
-              <p style={{ fontSize: "15px", color: "#333" }}>
+              <p style={{ fontSize: "15px", color: "#333"}}>
                 {preview.text || "Aquí verás tu post generado."}
               </p>
               <p style={{ fontSize: "15px", color: "#333" }}>
@@ -74,9 +75,11 @@ const Preview = ({ preview }:{preview: PreviewResponse}) => {
               </button>
             </div>
           </div>
+          <div className="d-flex flex-direction-row justify-content-evenly w-100">
+            <PublishButton preview={preview} />
+            <ProgramButton preview={preview} />
+          </div>
 
-          {/* Componente de Toasts */}
-          <PublishButton preview={preview} />
         </div>
       ) : (
         <p className="text-center text-muted">Aquí verás tu post generado por IA</p>

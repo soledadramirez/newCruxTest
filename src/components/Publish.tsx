@@ -9,7 +9,7 @@ const PublishButton = ({preview}: {preview: PreviewResponse}) => {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     try {
-      const response = await axios.post("https://hook.us2.make.com/lka1ovvuarl7i3pm2gmuiwz455mumkuf", {
+      const response = await axios.post("https://hook.us2.make.com/fcu763oi9tm4e1ln4vhdk9hhoyv0y4qv", {
         text: preview.text,
         url: preview.hash_tag,
       });
@@ -36,17 +36,10 @@ const PublishButton = ({preview}: {preview: PreviewResponse}) => {
 
   return (
     <div className="container mt-3 buttons">
-      <div className="d-flex flex-direction-row justify-content-between w-100 gap-4 p-3">
-        {/* <button
-          type="button"
-          className="btn btn-primary w-50"
-          onClick={() => handleButtonClick("programar")}
-        >
-          Programar
-        </button> */}
+      <div className="d-flex flex-direction-row justify-content-between w-100 p-3">
         <button
           type="button"
-          className="btn btn-primary w-50"
+          className="btn btn-primary w-100"
           onClick={(e) => handleButtonClick(e,"publicar")}
         >
           Publicar
