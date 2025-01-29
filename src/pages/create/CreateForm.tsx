@@ -23,12 +23,11 @@ const CreateForm = ({ text, setText, url, setUrl, file, setFile, handleSubmit, i
       <h6 className="m-0">
       Esta información nos ayudará a crear tu post
     </h6>
-      <div className="card shadow w-100" style={{ maxWidth: '500px', margin: '20px auto' }}>
+<div className="card shadow w-100" style={{ maxWidth: '500px', margin: '20px auto' }}>
   <div className="card-body w-100">
-    <div className="mb-3">
+    <div className="mb-3" style={{alignSelf: 'flex-end',}}>
       <label htmlFor="text" className="form-label">Agregá texto:</label>
-      <input
-        type="text"
+      <textarea
         id="text"
         value={text}
         onChange={(e) => setText(e.target.value)}
@@ -65,7 +64,7 @@ const CreateForm = ({ text, setText, url, setUrl, file, setFile, handleSubmit, i
             <input
               type="file"
               id="file"
-              onChange={() => {}}
+              onChange={(e: any) => setFile(e.target.files[0])}
               className="form-control"
             />
           </div>

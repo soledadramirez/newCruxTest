@@ -106,8 +106,10 @@ const Sidebar: React.FC = () => {
         className="flex-grow-1"
         style={{
           padding: "10px",
-          width: "100%",
-        }}
+         justifyContent: "center",
+          marginTop: "60px",
+          marginRight: isExpanded ? "250px" : "60px",
+          marginLeft: isExpanded ? "250px" : "60px",}}
       >
         <Routes>
           {menuItems.map((item) => (

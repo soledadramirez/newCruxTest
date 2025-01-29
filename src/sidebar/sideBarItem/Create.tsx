@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from "axios";
-import CreateForm from "../../pages/create/InputForm";
 import LinkedinView from "../../pages/create/components/preview/linkedin/LinkedinView";
+import CreateForm from "../../pages/create/CreateForm";
 
 export interface PreviewResponse {
   social_media: string;
@@ -117,7 +117,7 @@ const App = () => {
         />
         {
          preview?.length === 0 ? <LinkedinView   preview={{
-          social_media: '',
+          social_media: 'linkedin',
           text: '',
           hash_tag: '',
           profilePicture: '',
