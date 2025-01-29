@@ -1,5 +1,5 @@
 import React, { useState , useEffect , useRef } from "react";
-import { PreviewResponse } from "../App";
+import { PreviewResponse } from "./Create";
 import axios from "axios";
 import DatePicker from "./DatePicker";
 

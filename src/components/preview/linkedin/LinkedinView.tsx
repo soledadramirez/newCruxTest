@@ -2,7 +2,7 @@ import React from "react";
 import PublishButton from "../../Publish";
 import ProgramButton from "../../Program";
 import profile from "../../../assets/profile.webp";
-import { PreviewResponse } from "../../../App";
+import { PreviewResponse } from "../../Create";
 
 
 

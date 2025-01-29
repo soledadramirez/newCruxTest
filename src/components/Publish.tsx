@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { PreviewResponse } from "../App";
+import { PreviewResponse } from "./Create";
 import axios from "axios";
 
 const PublishButton = ({preview}: {preview: PreviewResponse}) => {
