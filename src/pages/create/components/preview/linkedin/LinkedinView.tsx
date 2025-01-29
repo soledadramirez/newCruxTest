@@ -1,13 +1,12 @@
 import React from "react";
 import PublishButton from "../../Publish";
 import ProgramButton from "../../Program";
-import profile from "../../../assets/profile.webp";
-import { PreviewResponse } from "../../Create";
+import profile from "../../../../../assets/profile.webp";
+import { PreviewResponse } from "../../../../../sidebar/sideBarItem/Create";
 
 
 
-
-const Preview = ({ preview }:{preview: PreviewResponse}) => {
+const LinkedinView = ({ preview, fileUrl }:{preview: PreviewResponse, fileUrl?: string;}) => {
 
   return (
     <div className="bg-light p-4 shadow-sm w-100 w-md-50">
@@ -39,6 +38,9 @@ const Preview = ({ preview }:{preview: PreviewResponse}) => {
               <p style={{ fontSize: "15px", color: "#333" }}>
                 {preview.hash_tag}
               </p>
+              {fileUrl && (
+                <img src={fileUrl} alt="Imagen" style={{maxWidth: '30%'}}  />
+              )}
             </div>
 
             {/* Contador de interacciones */}
@@ -88,4 +90,4 @@ const Preview = ({ preview }:{preview: PreviewResponse}) => {
   );
 };
 
-export default Preview;
+export default LinkedinView;

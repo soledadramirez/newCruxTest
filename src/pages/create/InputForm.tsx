@@ -12,7 +12,7 @@ interface InputFormProps {
   setIsLoading: (value: boolean) =>void;
 }
 
-const InputForm = ({ text, setText, url, setUrl, file, setFile, handleSubmit, isLoading, setIsLoading}: InputFormProps) => {
+const CreateForm = ({ text, setText, url, setUrl, file, setFile, handleSubmit, isLoading, setIsLoading}: InputFormProps) => {
   return (
     <form
       onSubmit={handleSubmit}
@@ -101,4 +101,4 @@ const InputForm = ({ text, setText, url, setUrl, file, setFile, handleSubmit, is
   );
 };
 
-export default InputForm;
+export default CreateForm;

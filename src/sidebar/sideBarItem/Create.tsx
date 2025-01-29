@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from "axios";
-import InputForm from "./InputForm";
-import Preview from "./preview/linkedin/LinkedinView";
+import CreateForm from "../../pages/create/InputForm";
+import LinkedinView from "../../pages/create/components/preview/linkedin/LinkedinView";
 
 export interface PreviewResponse {
   social_media: string;
@@ -26,6 +26,7 @@ const App = () => {
   const isComponentMounted = useRef(true); // Usamos useRef para mantener el estado del montaje
   const wsRef = useRef<WebSocket | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [fileUrl, setFileUrl] = useState<string>(); 
 
   useEffect(() => {
     isComponentMounted.current = true; // Marcamos como montado al inicio
@@ -40,6 +41,14 @@ const App = () => {
       socket.onmessage = (event) => {
         if (!isComponentMounted.current) return; // Evita actualizar estado si el componente está desmontado
         const response = JSON.parse(event.data);
+       if (response.files && response.files.length > 0) {
+         const fileArrayUnit = new Uint8Array(response.files[0].file_buffer.data);
+        const fileBlob= new Blob([fileArrayUnit], { type: response.files[0].mime_type});  //   // Crear la URL ara el Blob
+        const fileUrl = URL.createObjectURL(fileBlob);
+        setFileUrl(fileUrl);
+        } else {
+          setFileUrl(undefined);
+        }
         console.log("Mensaje del servidor WebSocket:", response);
         setPreview(response.data);
         setIsLoading(false);
@@ -95,7 +104,7 @@ const App = () => {
   return (
       <div className="min-vh-100 w-100">
       <div className="d-flex flex-column flex-lg-row justify-content-between gap-4 w-100 m-auto" style={{ height: 670}}>
-        <InputForm
+        <CreateForm
           text={text}
           setText={setText}
           url={url}
@@ -107,14 +116,14 @@ const App = () => {
           setIsLoading= {setIsLoading}
         />
         {
-         preview?.length === 0 ? <Preview   preview={{
+         preview?.length === 0 ? <LinkedinView   preview={{
           social_media: '',
           text: '',
           hash_tag: '',
           profilePicture: '',
          }} /> :  preview?.map((item, index) => {
             return (
-              <Preview  key={index} preview={item} />
+              <LinkedinView fileUrl={fileUrl}  key={index} preview={item} />
             )
           }
           )

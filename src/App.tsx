@@ -1,7 +1,7 @@
 import React from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import background from './assets/fondo.webp';
-import Sidebar from "./components/Sidebar";
+import Sidebar from "./sidebar/Sidebar";
 
 const App = () => {
 

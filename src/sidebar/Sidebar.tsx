@@ -1,8 +1,9 @@
 import React, { useState, useRef, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from "react-router-dom";
-import Create from "./Create";
-import PhotoSession from "./PhotoSession";
-import Activity from "./Activity";
+import Create from "./sideBarItem/Create";
+import PhotoSession from "./sideBarItem/PhotoSession";
+import Activity from "./sideBarItem/Activity";
+
 
 const Sidebar: React.FC = () => {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);

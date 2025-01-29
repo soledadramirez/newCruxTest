@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { PreviewResponse } from "./Create";
 import axios from "axios";
+import { PreviewResponse } from "../../../sidebar/sideBarItem/Create";
 
 const PublishButton = ({preview}: {preview: PreviewResponse}) => {
   const [showToast, setShowToast] = useState(false);
