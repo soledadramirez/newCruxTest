@@ -7,13 +7,14 @@ const App = () => {
 
   return (
     // <div className="min-vh-100 d-flex justify-content-center align-items-center"
-      <div className="min-vh-100 d-flex flex-direction-column justify-content-center align-items-center"
+      <div className="min-vh-100 d-flex flex-md-column justify-content-center align-items-center "
       style={{
         backgroundImage: `url(${background})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
         minHeight: "100vh",
-        minWidth: "1200px"
+        width: '100%',
+        margin: 'auto'
       }}>
       <Sidebar />
       </div>

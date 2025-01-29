@@ -93,8 +93,8 @@ const App = () => {
   };
 
   return (
-      <div className="min-vh-100 d-flex justify-content-center align-items-center">
-      <div className="d-flex flex-column flex-md-row justify-content-between gap-4" style={{ height: 670,maxWidth: '1000px', width: '100%' }}>
+      <div className="min-vh-100 w-100">
+      <div className="d-flex flex-column flex-lg-row justify-content-between gap-4 w-100 m-auto" style={{ height: 670}}>
         <InputForm
           text={text}
           setText={setText}
