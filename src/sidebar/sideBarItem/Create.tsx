@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from "axios";
 import LinkedinView from "../../pages/create/components/preview/linkedin/LinkedinView";
 import CreateForm from "../../pages/create/CreateForm";
+import { data } from "react-router-dom";
 
 export interface PreviewResponse {
   social_media: string;
@@ -26,7 +27,9 @@ const App = () => {
   const isComponentMounted = useRef(true); // Usamos useRef para mantener el estado del montaje
   const wsRef = useRef<WebSocket | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [fileUrl, setFileUrl] = useState<string>(); 
+  const [fileUrl, setFileUrl] = useState<string>();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  let DATA = {};
 
   useEffect(() => {
     isComponentMounted.current = true; // Marcamos como montado al inicio
@@ -77,6 +80,10 @@ const App = () => {
       }
     };
   }, []);
+  useEffect(() => {
+    if(DATA) alert('DDDDD' + JSON.stringify(DATA));
+  }, [DATA]);
+
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -101,9 +108,40 @@ const App = () => {
     }
   };
 
+  const handleOnResponse = (data: any) => {
+    console.log('SUCCESS, handleOnResponse', {data: data});
+     DATA = data;
+  }
+  const handleLinkedInLogin = () => {
+    const linkedInAuthUrl = 'https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=773asu10mw5lfd&redirect_uri=https://04bd-2a09-bac5-99-1b9-00-2c-df.ngrok-free.app/linkedin/callback&scope=w_member_social profile openid email';
+    // Abrimos LinkedIn en un popup
+    const width = 600, height = 600;
+    const left = window.innerWidth / 2 - width / 2;
+    const top = window.innerHeight / 2 - height / 2;
+    const popup = window.open(
+      linkedInAuthUrl,
+      "LinkedIn Login",
+      `width=${width},height=${height},top=${top},left=${left}`
+    );
+    // Escuchar mensajes desde la ventana popup
+    const receiveMessage = (event: MessageEvent) => {
+      if (event.origin !== window.location.origin) return;
+      if (event.data?.status === "success") {
+        handleOnResponse(event.data);
+      }
+      if(event.data?.status) {
+        popup?.close();
+        window.removeEventListener("message", receiveMessage);
+      }
+    };
+
+    window.addEventListener("message", receiveMessage);
+  }
+
   return (
       <div className="min-vh-100 w-100">
       <div className="d-flex flex-column flex-lg-row justify-content-between gap-4 w-100 m-auto" style={{ height: 670}}>
+        <button onClick={handleLinkedInLogin}>{isAuthenticated ? 'Logueado'  : 'Login with Linkedin'}</button>
         <CreateForm
           text={text}
           setText={setText}
