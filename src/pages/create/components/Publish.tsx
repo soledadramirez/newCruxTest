@@ -6,29 +6,26 @@ const PublishButton = ({preview}: {preview: PreviewResponse}) => {
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
 
-  const handleSubmit = async (e: any) => {
+  const onPublish = async (e: any) => {
     e.preventDefault();
+    const formData = new FormData();
+    formData.append("content", preview.text);
+    formData.append("user_id", 'f-vSMqbTeC');
+    if (preview.file) {
+      formData.append("files", preview.file);
+    }
     try {
-      const response = await axios.post("https://hook.us2.make.com/fcu763oi9tm4e1ln4vhdk9hhoyv0y4qv", {
-        text: preview.text,
-        url: preview.hash_tag,
-      });
-      console.log('response', response);
-      console.log('response.data', response.data);
-      console.log('response.config.data', response.config.data);
-
-      //setPreview(response.data);
+     await axios.post("https://web-socket-new-crux-65238b9f49d2.herokuapp.com/linkedin/post", formData);
     } catch (error) {
       console.error("Error al enviar los datos:", error);
-      alert("Error al enviar los datos");
     }
   };
   
-  const handleButtonClick = (e: any, action: string) => {
+  const handleButtonClick = async (e: any, action: string) => {
     if (action === "programar") {
       setToastMessage("¡Tu publicación ha sido programada con éxito!");
     } else if (action === "publicar") {
-      handleSubmit(e);
+      await onPublish(e);
       setToastMessage("¡Tu publicación ha sido publicada con éxito!");
     }
     setShowToast(true); // Muestra el toast

@@ -3,7 +3,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from "axios";
 import LinkedinView from "../../pages/create/components/preview/linkedin/LinkedinView";
 import CreateForm from "../../pages/create/CreateForm";
-import { data } from "react-router-dom";
 
 export interface PreviewResponse {
   social_media: string;
@@ -18,6 +17,7 @@ export interface PreviewResponse {
   shares?: [];
   views?:[];
   comments?: [];
+  file: File | null;
 }
 const App = () => {
   const [text, setText] = useState("");
@@ -29,7 +29,6 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [fileUrl, setFileUrl] = useState<string>();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  let DATA = {};
 
   useEffect(() => {
     isComponentMounted.current = true; // Marcamos como montado al inicio
@@ -80,9 +79,7 @@ const App = () => {
       }
     };
   }, []);
-  useEffect(() => {
-    if(DATA) alert('DDDDD' + JSON.stringify(DATA));
-  }, [DATA]);
+
 
 
   const handleSubmit = async (e: any) => {
@@ -110,7 +107,6 @@ const App = () => {
 
   const handleOnResponse = (data: any) => {
     console.log('SUCCESS, handleOnResponse', {data: data});
-     DATA = data;
   }
   const handleLinkedInLogin = () => {
     const linkedInAuthUrl = 'https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=773asu10mw5lfd&redirect_uri=https://04bd-2a09-bac5-99-1b9-00-2c-df.ngrok-free.app/linkedin/callback&scope=w_member_social profile openid email';
@@ -159,7 +155,10 @@ const App = () => {
           text: '',
           hash_tag: '',
           profilePicture: '',
+          file: null,
          }} /> :  preview?.map((item, index) => {
+            //Mejorar esto para el manejo de imagenes de mak
+            item.file = file;
             return (
               <LinkedinView fileUrl={fileUrl}  key={index} preview={item} />
             )
