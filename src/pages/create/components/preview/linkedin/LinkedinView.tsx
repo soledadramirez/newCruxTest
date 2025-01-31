@@ -6,7 +6,7 @@ import { PreviewResponse } from "../../../../../sidebar/sideBarItem/Create";
 
 
 
-const LinkedinView = ({ preview, fileUrl }:{preview: PreviewResponse, fileUrl?: string;}) => {
+const LinkedinView = ({ preview, fileUrl, userId }:{preview: PreviewResponse, fileUrl?: string, userId: string;}) => {
 
   return (
     <div className="bg-light p-4 shadow-sm w-100 w-md-50">
@@ -78,7 +78,7 @@ const LinkedinView = ({ preview, fileUrl }:{preview: PreviewResponse, fileUrl?: 
             </div>
           </div>
           <div className="d-flex flex-direction-row justify-content-evenly w-100">
-            <PublishButton preview={preview} />
+            <PublishButton preview={preview} userId={userId}  />
             <ProgramButton preview={preview} />
           </div>
 

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { PreviewResponse } from "../../../sidebar/sideBarItem/Create";
 
-const PublishButton = ({preview}: {preview: PreviewResponse}) => {
+const PublishButton = ({preview, userId }: {preview: PreviewResponse, userId: string}) => {
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
 
@@ -10,7 +10,7 @@ const PublishButton = ({preview}: {preview: PreviewResponse}) => {
     e.preventDefault();
     const formData = new FormData();
     formData.append("content", preview.text);
-    formData.append("user_id", 'f-vSMqbTeC');
+    formData.append("user_id", userId);
     if (preview.file) {
       formData.append("files", preview.file);
     }
