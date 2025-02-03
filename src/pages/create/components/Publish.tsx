@@ -14,6 +14,7 @@ const PublishButton = ({preview, userId }: {preview: PreviewResponse, userId: st
     if (preview.file) {
       formData.append("files", preview.file);
     }
+    console.log('REQUEST___', {userId});
     try {
      await axios.post("https://web-socket-new-crux-65238b9f49d2.herokuapp.com/linkedin/post", formData);
     } catch (error) {
