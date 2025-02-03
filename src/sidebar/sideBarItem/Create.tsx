@@ -19,6 +19,17 @@ export interface PreviewResponse {
   comments?: [];
   file: File | null;
 }
+type status = 'success' | 'failed';
+export interface UserCallbackResponse {
+  status: status;
+  response: {
+      data: {
+        id: string;
+        name: string;
+      }
+  }
+};
+
 const App = () => {
   const [text, setText] = useState("");
   const [url, setUrl] = useState("");
@@ -28,7 +39,15 @@ const App = () => {
   const wsRef = useRef<WebSocket | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [fileUrl, setFileUrl] = useState<string>();
-  const [user, setUser] = useState<{ id: string;}>({id: ''});
+  const [user, setUser] = useState<{ id: string; name: string;}>({id: '', name: ''});
+
+  const onUserLogged = (result: any) => {
+    setUser({
+      id: result.data.id,
+      name: result.data.name,
+    });
+  };
+
 
   useEffect(() => {
     isComponentMounted.current = true; // Marcamos como montado al inicio
@@ -43,17 +62,21 @@ const App = () => {
       socket.onmessage = (event) => {
         if (!isComponentMounted.current) return; // Evita actualizar estado si el componente está desmontado
         const response = JSON.parse(event.data);
-       if (response.files && response.files.length > 0) {
-         const fileArrayUnit = new Uint8Array(response.files[0].file_buffer.data);
-        const fileBlob= new Blob([fileArrayUnit], { type: response.files[0].mime_type});  //   // Crear la URL ara el Blob
-        const fileUrl = URL.createObjectURL(fileBlob);
-        setFileUrl(fileUrl);
+        if(response.origin === 'popup') {
+          onUserLogged(response);
         } else {
-          setFileUrl(undefined);
+          if (response.files && response.files.length > 0) {
+            const fileArrayUnit = new Uint8Array(response.files[0].file_buffer.data);
+           const fileBlob= new Blob([fileArrayUnit], { type: response.files[0].mime_type});  //   // Crear la URL ara el Blob
+           const fileUrl = URL.createObjectURL(fileBlob);
+           setFileUrl(fileUrl);
+           } else {
+             setFileUrl(undefined);
+           }
+           console.log("Mensaje del servidor WebSocket:",response);
+           setPreview(response.data);
+           setIsLoading(false);
         }
-        console.log("Mensaje del servidor WebSocket:", response);
-        setPreview(response.data);
-        setIsLoading(false);
       };
 
       socket.onclose = () => {
@@ -79,22 +102,6 @@ const App = () => {
       }
     };
   }, []);
-
-  useEffect(() => {
-    const handleMessage = (event: MessageEvent) => {
-      console.log('event.origin', event.origin);
-      if (event.origin !== 'https://web-socket-new-crux-65238b9f49d2.herokuapp.com') return;
-      if(event.data?.data) {
-        console.log('Datos recibidos:', event.data?.data);
-        setUser({id: event.data?.data?.id});
-      }
-      
-    // Guarda en estado
-    };
-    window.addEventListener('message', handleMessage);
-    return () => window.removeEventListener('message', handleMessage);
-  }, []);
-
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
